@@ -1,30 +1,45 @@
 import tkinter
+import tkinter.filedialog
 
 screen=tkinter.Tk()
-screen.geometry("400x700")
+screen.geometry("400x300")
 screen.title("Memorizer")
 
 def open():
-    pass
+    opened=tkinter.filedialog.askopenfile()
+    if opened!=None:
+        datas=opened.readlines()
+        for data in datas:
+            listbox.insert(tkinter.END,data)
 
 def delete():
-    pass 
+    selected=listbox.curselection()
+    listbox.delete(selected)
 def save():
-    pass
+    stored=tkinter.filedialog.asksaveasfile()
+    if stored!=None:
+        items= listbox.get(0,tkinter.END)
+        for item in items:
+            print(item,file=stored)
+
+    
+
 def add():
     adding=str(entry.get())
     listbox.insert(tkinter.END,adding)
+    entry.delete(0,tkinter.END)
 
 
 
 
-button1=tkinter.Button(screen, text="OPEN", )
+
+button1=tkinter.Button(screen, text="OPEN", command=open)
 button1.grid(row=1, column=1)
 
-button2=tkinter.Button(screen, text="DELETE")
+button2=tkinter.Button(screen, text="DELETE", command=delete)
 button2.grid(row=1, column=2)
 
-button3=tkinter.Button(screen, text="SAVE")
+button3=tkinter.Button(screen, text="SAVE", command=save)
 button3.grid(row=1, column=3)
 
 button4=tkinter.Button(screen, text="ADD", command=add)
