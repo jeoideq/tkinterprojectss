@@ -4,6 +4,47 @@ screen=tkinter.Tk()
 screen.geometry("500x400")
 screen.title("My Adress Book")
 
+
+adress_book={}
+
+def update_add():
+    name=entry1.get()
+    adress=entry2.get()
+    mobile=entry3.get()
+    email=entry4.get()
+    birthday=entry5.get()
+    adress_book[name]=[adress,mobile,email,birthday]
+    update_listbox()
+    entry1.delete(0, tkinter.END)
+    entry2.delete(0, tkinter.END)
+    entry3.delete(0, tkinter.END)
+    entry4.delete(0, tkinter.END)
+    entry5.delete(0, tkinter.END)
+
+
+
+
+def delete():
+    index=listbox.curselection()
+    name=listbox.get(index)
+    del adress_book[name]
+    update_listbox()
+
+
+def update_listbox():
+    listbox.delete(0,tkinter.END)
+    keys=adress_book.keys()
+    for key in keys:
+        listbox.insert(tkinter.END, key)
+        
+
+
+
+
+    
+
+
+
 #title
 
 Label1=tkinter.Label(screen, text="My Adress Book", fg="black")
@@ -58,17 +99,17 @@ entry5.grid(row=6, column=4)
 
 #buttons 
 
-button1=tkinter.Button(screen, text="Edit", fg="black")
-button1.grid(row=7, column=1)
+button2=tkinter.Button(screen, text="Edit", fg="black")
+button2.grid(row=7, column=1)
 
-button1=tkinter.Button(screen, text="Delete", fg="black")
-button1.grid(row=7, column=2)
+button3=tkinter.Button(screen, text="Delete", fg="black", command=delete)
+button3.grid(row=7, column=2)
 
-button1=tkinter.Button(screen, text="Update/Add", fg="black")
-button1.grid(row=7, column=4)
+button4=tkinter.Button(screen, text="Update/Add", fg="black", command=update_add)
+button4.grid(row=7, column=4)
 
-button1=tkinter.Button(screen, text="Save", fg="black", width=15)
-button1.grid(row=8, column=2, columnspan=2)
+button5=tkinter.Button(screen, text="Save", fg="black", width=15)
+button5.grid(row=8, column=2, columnspan=2)
 
 
 
