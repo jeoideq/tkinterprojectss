@@ -1,4 +1,6 @@
 import tkinter
+import tkinter.filedialog
+import tkinter.messagebox
 
 screen=tkinter.Tk()
 screen.geometry("500x400")
@@ -21,6 +23,15 @@ def update_add():
     entry4.delete(0, tkinter.END)
     entry5.delete(0, tkinter.END)
 
+def edit():
+    index=listbox.curselection()
+    name=listbox.get(index)
+    record=adress_book[name]
+    entry1.insert(0,name)
+    entry2.insert(0,record[0])
+    entry3.insert(0,record[1])
+    entry4.insert(0,record[2])
+    entry5.insert(0,record[3])
 
 
 
@@ -36,12 +47,31 @@ def update_listbox():
     keys=adress_book.keys()
     for key in keys:
         listbox.insert(tkinter.END, key)
-        
 
+def save():
+    file1=tkinter.filedialog.asksaveasfile()
+    if file1!=None:
+        print(adress_book,file=file1)
 
+def open():
+    global adress_book
+    file1=tkinter.filedialog.askopenfile()
+    if file1!=None:
+        adress_book=eval(file1.read())
+        update_listbox()
 
+def display(event):
+    index=listbox.curselection()
+    name=listbox.get(index)
+    record=adress_book[name]
+    tkinter.messagebox.showinfo("display","Name: "+name+ "\n Adress" + record[0] + "\n Mobile:" + record[1]  + "\n Email" + record[2] +  " \n Birthday" + record[3])
 
     
+
+
+
+        
+
 
 
 
@@ -50,15 +80,13 @@ def update_listbox():
 Label1=tkinter.Label(screen, text="My Adress Book", fg="black")
 Label1.grid(row=1, column=2, padx=30)
 
-#button
 
-button1=tkinter.Button(screen, text="Open", fg="black")
-button1.grid(row=1, column=3)
 
 #listbox
 
 listbox=tkinter.Listbox(screen,width=20, height=10)
 listbox.grid(row=2, column=1, columnspan=2, rowspan=5)
+listbox.bind("<<ListboxSelect>>", display)
 
 
 #labels
@@ -99,7 +127,10 @@ entry5.grid(row=6, column=4)
 
 #buttons 
 
-button2=tkinter.Button(screen, text="Edit", fg="black")
+button1=tkinter.Button(screen, text="Open", fg="black", command=open)
+button1.grid(row=1, column=3)
+
+button2=tkinter.Button(screen, text="Edit", fg="black", command=edit)
 button2.grid(row=7, column=1)
 
 button3=tkinter.Button(screen, text="Delete", fg="black", command=delete)
@@ -108,8 +139,10 @@ button3.grid(row=7, column=2)
 button4=tkinter.Button(screen, text="Update/Add", fg="black", command=update_add)
 button4.grid(row=7, column=4)
 
-button5=tkinter.Button(screen, text="Save", fg="black", width=15)
+button5=tkinter.Button(screen, text="Save", fg="black", width=15, command=save)
 button5.grid(row=8, column=2, columnspan=2)
+
+
 
 
 
