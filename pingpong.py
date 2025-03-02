@@ -19,11 +19,38 @@ class Ball():
         self.changey=-8
         self.score1=0
         self.score2=0
+    def draw(self):
+        canvas.move(self.ball,self.changex,self.changey)
+        self.cords=canvas.coords(self.ball)
+        if self.cords[0]<0:
+            self.changex=4
+        if self.cords[2]>800:
+            self.changex=-4
+        if self.cords[1]<0:
+            self.changey=8
+        if self.cords[3]>600:
+            self.changey=-8
+        
 
 class Player1():
     def __init__(self):
         self.rectangle=canvas.create_rectangle(10,20,30,150, fill="white")
-        self.player1y=0
+        self.changey=0
+        canvas.bind_all("a",self.move_up)
+        canvas.bind_all("s",self.move_down)
+    def move(self):
+        canvas.move(self.rectangle,0,self.changey)
+        self.cords=canvas.coords(self.rectangle)
+        if self.cords[1]<0:
+            self.changey=0
+        if self.cords[3]>600:
+            self.changey=0
+    def move_up(self,event):
+        self.changey=-4
+    def move_down(self,event):
+        self.changey=4
+
+
 
 class Player2():
     def __init__(self):
@@ -36,6 +63,16 @@ class Player2():
 pingpongball=Ball()
 opponent1=Player1()
 opponent2=Player2()
+while True:
+    pingpongball.draw()
+    opponent1.move()
+    screen.update_idletasks()
+    screen.update()
+
+
+
+
+    
 
 
 
