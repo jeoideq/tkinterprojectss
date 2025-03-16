@@ -10,6 +10,7 @@ canvas=tkinter.Canvas(screen,background="black",width=800, height=600)
 canvas.place(x=0,y=0)
 canvas.create_line(400,0,400,600,fill="white",width=4)
 canvas.create_oval(350,250,450,350,outline="white", width=4)
+scoreboard=canvas.create_text(60,580,text="0 vs 0", fill="white",font=["arial",25,"normal"])
 
 
 class Ball():
@@ -25,13 +26,16 @@ class Ball():
         canvas.move(self.ball,self.changex,self.changey)
         self.cords=canvas.coords(self.ball) 
         if self.cords[0]<0:
+            self.score2+=1
             self.changex=4
         if self.cords[2]>800:
+            self.score1+=1
             self.changex=-4
         if self.cords[1]<0:
             self.changey=8
         if self.cords[3]>600:
             self.changey=-8
+        canvas.itemconfig(scoreboard,text=str(self.score1) + "  vs  " + str(self.score2))
     def check_colision(self):
         self.cords1=canvas.coords(self.player1.rectangle) #player1
         self.cords2=canvas.coords(self.player2.rectangle)#player2
@@ -39,7 +43,7 @@ class Ball():
             if self.cords[0]<self.cords1[2] and self.cords[0]>self.cords1[0]:
                 self.changex=4 
 
-        if self.cords2[1]>self.cords[3] and self.cords2[3]>self.cords[1]:
+        if self.cords2[1]<self.cords[3] and self.cords2[3]>self.cords[1]:
             if self.cords2[0]<self.cords[2] and self.cords2[2]>self.cords[2]:
                 self.changex=-4
 
@@ -65,10 +69,12 @@ class Player1():
             self.changey=0
         if self.cords[3]>600:
             self.changey=0
+        self.changey=0
     def move_up(self,event):
-        self.changey=-4
+        self.changey=-9
     def move_down(self,event):
-        self.changey=4
+        self.changey=9
+
     
 
 
@@ -86,10 +92,11 @@ class Player2():
             self.changey=0
         if self.cords[3]>600:
             self.changey=0
+        self.changey=0
     def move_up(self,event):
-        self.changey=-4
+        self.changey=-9
     def move_down(self,event):
-        self.changey=4
+        self.changey=9
 
 
 
